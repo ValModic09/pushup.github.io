@@ -282,6 +282,12 @@ function verifyDeleteAllData() {
 function saveGoal() {
   const goal = parseInt(document.getElementById("goalInput").value);
   if (!isNaN(goal)) {
+    const savedGoal = localStorage.getItem("weeklyGoal");
+    if (savedGoal && savedGoal !== goal) {
+      // Če se cilj spremeni, obvesti uporabnika
+      console.log("Cilj je bil spremenjen!");
+      document.getElementById("goalProgressText").textContent = `🚨 Cilj je bil spremenjen!`;
+    }
     localStorage.setItem("weeklyGoal", goal);
     localStorage.setItem("goalDate", new Date().toISOString());
     console.log(`Cilj shranjen: ${goal}`);
@@ -296,15 +302,14 @@ function updateGoalProgress() {
   const savedGoalDate = localStorage.getItem("goalDate");
   const goal = parseInt(localStorage.getItem("weeklyGoal") || "0");
 
-  const isMonday = today.getDay() === 1;
+  const isMonday = today.getDay() === 1; // Preveri, ali je danes ponedeljek
   const goalDate = savedGoalDate ? new Date(savedGoalDate) : null;
+
+  // Cilj ne bo izbrisan na ponedeljek, ampak preveri, če je bil pretekli teden
   const weekExpired = goalDate && (today - goalDate > 7 * 24 * 60 * 60 * 1000);
 
-  // Preverite, da se cilj ne izbriše, dokler teden ni res pretekel
-  if (isMonday || !goal || weekExpired) {
-    if (weekExpired) {
-      console.log("Teden je potekel, cilj bo odstranjen.");
-    }
+  if (weekExpired) {
+    console.log("Teden je potekel, cilj bo odstranjen.");
     localStorage.removeItem("weeklyGoal");
     localStorage.removeItem("goalDate");
     document.getElementById("goalProgressText").textContent = "🆕 Nov teden – nastavi svoj cilj!";
@@ -317,7 +322,7 @@ function updateGoalProgress() {
   startOfWeek.setDate(today.getDate() - (day - 1));
   startOfWeek.setHours(0, 0, 0, 0);
 
-  // 📦 Preberi podatke iz "exerciseData" (prej "pushups")
+  // 📦 Preberi podatke iz "exerciseData"
   const savedData = JSON.parse(localStorage.getItem("exerciseData") || "{}");
 
   // 🔍 Filtriraj le podatke iz tega tedna
@@ -329,6 +334,7 @@ function updateGoalProgress() {
   document.getElementById("goalProgressText").textContent =
     `📈 Ta teden: ${thisWeekTotal}/${goal} sklec (${goal > 0 ? Math.floor((thisWeekTotal / goal) * 100) : 0}%)`;
 }
+
 function showBadge(award) {
     const awardsList = document.getElementById('awardsList');
     
