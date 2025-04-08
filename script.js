@@ -477,16 +477,3 @@ function renderStreakDisplay() {
 document.addEventListener("DOMContentLoaded", () => {
     renderStreakDisplay();
 });
-function updateAndSaveStreak() {
-    const streakInfo = updateStreakSystem();
-
-    const streakData = {
-        currentStreak: streakInfo.currentStreak,
-        maxStreak: streakInfo.maxStreak,
-        awards: JSON.parse(localStorage.getItem('streakData'))?.awards || []
-    };
-
-    localStorage.setItem('streakData', JSON.stringify(streakData));
-    checkForAwards(streakInfo.currentStreak);
-    renderStreakDisplay(); // da se takoj osveži prikaz
-}
