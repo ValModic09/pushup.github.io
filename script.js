@@ -66,7 +66,7 @@ function addExercise() {
     setsData.push(totalRepsForDay);
     updateChart();
     updateGoalProgress();
-    updateAndSaveStreak();
+   
 }
 
 function removeLastExercise() {
@@ -104,7 +104,7 @@ function removeLastExercise() {
             // Posodobimo graf
             updateChart();
             updateGoalProgress();
-            updateAndSaveStreak();
+            
 
             showTemporaryMessage("Zadnji današnji vnos je bil odstranjen."); // Samodejno obvestilo
             closeModal(); // Zapri modalno okno
