@@ -507,7 +507,7 @@ const motivationalQuotes = [
 "Bolečina je začasna, ponos traja 🕒🏅",
 "Zmaguje tisti, ki ne odneha 🥇💣",
 "Skleca po skleco, postajaš legenda 📈🦾",
-"Trening dela mojstra 🏋️‍♂️⏳",
+"Trening dela mojstra 🏋️‍♂️⏳"
 ];
 
 window.addEventListener("load", () => {
