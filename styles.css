@@ -268,6 +268,10 @@ domov {
     margin-bottom: 0.3rem;
     color: #444;
 }
+.popup-hidden {
+  display: none;  /* Popup bo skrit */
+}
+
 #motivational-popup {
   position: fixed;
   top: 0;
@@ -279,10 +283,6 @@ domov {
   align-items: center;
   justify-content: center;
   z-index: 9999;
-}
-
-.popup-hidden {
-  display: none;
 }
 
 .popup-inner {
