@@ -295,7 +295,7 @@ domov {
 
 /* Vsebina pop-up okna */
 .popup-content {
-    background-color: white;
+    background-color:  #242634;
     padding: 20px;
     border-radius: 10px;
     width: 80%;
