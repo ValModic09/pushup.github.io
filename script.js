@@ -486,16 +486,28 @@ document.addEventListener("DOMContentLoaded", () => {
     renderStreakDisplay();
 });
 const motivationalQuotes = [
-  "Bravo, ponosen sem nate! 💪🔥",
-  "Odlično si začela! 🚀",
-  "Tole gre v pravo smer! ➡️🌟",
-  "Samo tako naprej! 🛤️💯",
-  "Zaslužiš si pohvalo! 👏🥇",
-  "Z vsako vadbo si boljša! 📈🏐",
-  "Vztrajaj, gre ti super! 🔁🧠",
-  "Vse se začne z enim korakom! 👣🎯",
-  "Tvoje delo šteje – ne odnehaj! 🧱🏗️",
-  "Lepo, da si danes tukaj! 🫶✨"
+"Bravo, ponosen sem nate! 💪🔥",
+"Odlično si začela! 🚀",
+"Tole gre v pravo smer! ➡️🌟",
+"Samo tako naprej! 🛤️💯",
+"Zaslužiš si pohvalo! 👏🥇",
+ "Z vsako vadbo si boljša! 📈🏐",
+"Vztrajaj, gre ti super! 🔁🧠",
+ "Vse se začne z enim korakom! 👣🎯",
+"Tvoje delo šteje – ne odnehaj! 🧱🏗️",
+"Lepo, da si danes tukaj! 🫶✨",
+"Še ena! 🔥🫀",
+"Vsaka skleca šteje 💪😤",
+"Dihaj in premagaj 😤🔥",
+"Utrujen? Super, deluje! 😮‍💨✅",
+"Do konca! 🔚💥",
+"Stisni zobe, stisni mišice 😬💪",
+"Tukaj se gradi moč 🛠️⚡",
+"Ne popuščaj, zmaguj! 🏁🔥",
+"Bolečina je začasna, ponos traja 🕒🏅",
+"Zmaguje tisti, ki ne odneha 🥇💣",
+"Skleca po skleco, postajaš legenda 📈🦾",
+"Trening dela mojstra 🏋️‍♂️⏳",
 ];
 
 window.addEventListener("load", () => {
