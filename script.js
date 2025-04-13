@@ -496,6 +496,18 @@ const motivationalQuotes = [
   "Vse se začne z enim korakom! 👣🎯",
   "Tvoje delo šteje – ne odnehaj! 🧱🏗️",
   "Lepo, da si danes tukaj! 🫶✨"
+"Še ena! 🔥🫀",
+"Vsaka skleca šteje 💪😤",
+"Dihaj in premagaj 😤🔥",
+"Utrujen? Super, deluje! 😮‍💨✅",
+"Do konca! 🔚💥",
+"Stisni zobe, stisni mišice 😬💪",
+"Tukaj se gradi moč 🛠️⚡",
+"Ne popuščaj, zmaguj! 🏁🔥",
+"Bolečina je začasna, ponos traja 🕒🏅",
+"Zmaguje tisti, ki ne odneha 🥇💣",
+"Skleca po skleco, postajaš legenda 📈🦾",
+"Trening dela mojstra 🏋️‍♂️⏳"
 ];
 
 window.addEventListener("load", () => {
