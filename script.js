@@ -500,19 +500,24 @@ const motivationalQuotes = [
 
 function showMotivationalPopup() {
   const popup = document.getElementById("motivational-popup");
-  const textElement = document.getElementById("motivational-text");
-
+  const text = document.getElementById("motivational-text");
   const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
-  textElement.textContent = randomQuote;
-
+  text.textContent = randomQuote;
   popup.classList.remove("popup-hidden");
 }
 
 function closePopup() {
-  document.getElementById("motivational-popup").classList.add("popup-hidden");
+  const popup = document.getElementById("motivational-popup");
+  popup.classList.add("popup-hidden");
 }
 
-// Prikaži popup šele ko se vse naloži
 window.addEventListener("load", () => {
-  setTimeout(showMotivationalPopup, 500); // malo počaka, potem pokaže
+  setTimeout(showMotivationalPopup, 500);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const closeBtn = document.getElementById("close-popup-btn");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closePopup);
+  }
 });
