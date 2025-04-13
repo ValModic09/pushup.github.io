@@ -485,3 +485,37 @@ function renderStreakDisplay() {
 document.addEventListener("DOMContentLoaded", () => {
     renderStreakDisplay();
 });
+// Citati za motivacijo
+const preloadQuotes = [
+  "Bravo! 👏 Nadaljuj v tem ritmu!",
+  "Odlično! 💪 Ponosn sem nate!",
+  "Vsaka ponovitev šteje! 🔥",
+  "Napreduješ z vsakim gibanjem! 💥",
+  "To je ta disciplina! 🧠+💥",
+  "Napreduješ vsak dan! 🚀",
+  "Zdaj si že korak pred včerajšnjim sabo. 🔁",
+  "Zmaga! 🏆 Gremo dalje!",
+  "Resno treniraš – resni rezultati! 🧱",
+  "Ponosn sem nate! 🙌 Samo tako naprej!"
+];
+
+// Izberi naključen citat za pop-up
+const randomQuote = preloadQuotes[Math.floor(Math.random() * preloadQuotes.length)];
+
+// Prikaz motivacijskega citata v pop-up oknu
+const motivacijaCitatBox = document.getElementById("motivacijaCitat");
+motivacijaCitatBox.textContent = randomQuote;
+
+// Določimo pop-up in gumb za zapiranje
+const popup = document.getElementById("motivacijaPopup");
+const closePopupButton = document.getElementById("closePopup");
+
+// Prikaz pop-up okna ob nalaganju strani
+window.onload = function() {
+  popup.style.display = "flex"; // Pokaži pop-up
+};
+
+// Zapri pop-up okno, ko uporabnik klikne na gumb
+closePopupButton.addEventListener("click", function () {
+  popup.style.display = "none"; // Skrij pop-up
+});
