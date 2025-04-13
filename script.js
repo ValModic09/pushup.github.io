@@ -485,37 +485,34 @@ function renderStreakDisplay() {
 document.addEventListener("DOMContentLoaded", () => {
     renderStreakDisplay();
 });
-// Citati za motivacijo
-const preloadQuotes = [
-  "Bravo! 👏 Nadaljuj v tem ritmu!",
-  "Odlično! 💪 Ponosn sem nate!",
-  "Vsaka ponovitev šteje! 🔥",
-  "Napreduješ z vsakim gibanjem! 💥",
-  "To je ta disciplina! 🧠+💥",
-  "Napreduješ vsak dan! 🚀",
-  "Zdaj si že korak pred včerajšnjim sabo. 🔁",
-  "Zmaga! 🏆 Gremo dalje!",
-  "Resno treniraš – resni rezultati! 🧱",
-  "Ponosn sem nate! 🙌 Samo tako naprej!"
+const motivationalQuotes = [
+  "Bravo, ponosen sem nate! 💪🔥",
+  "Odlično si začel! 🚀",
+  "Tole gre v pravo smer! ➡️🌟",
+  "Samo tako naprej! 🛤️💯",
+  "Zaslužiš si pohvalo! 👏🥇",
+  "Z vsako vadbo si boljši! 📈🏐",
+  "Vztrajaj, gre ti super! 🔁🧠",
+  "Vse se začne z enim korakom! 👣🎯",
+  "Tvoje delo šteje – ne odnehaj! 🧱🏗️",
+  "Lepo, da si danes tukaj! 🫶✨"
 ];
 
-// Izberi naključen citat za pop-up
-const randomQuote = preloadQuotes[Math.floor(Math.random() * preloadQuotes.length)];
+function showMotivationalPopup() {
+  const popup = document.getElementById("motivational-popup");
+  const textElement = document.getElementById("motivational-text");
 
-// Prikaz motivacijskega citata v pop-up oknu
-const motivacijaCitatBox = document.getElementById("motivacijaCitat");
-motivacijaCitatBox.textContent = randomQuote;
+  const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+  textElement.textContent = randomQuote;
 
-// Določimo pop-up in gumb za zapiranje
-const popup = document.getElementById("motivacijaPopup");
-const closePopupButton = document.getElementById("closePopup");
+  popup.classList.remove("popup-hidden");
+}
 
-// Prikaz pop-up okna ob nalaganju strani
-window.onload = function() {
-  popup.style.display = "flex"; // Pokaži pop-up
-};
+function closePopup() {
+  document.getElementById("motivational-popup").classList.add("popup-hidden");
+}
 
-// Zapri pop-up okno, ko uporabnik klikne na gumb
-closePopupButton.addEventListener("click", function () {
-  popup.style.display = "none"; // Skrij pop-up
+// Prikaži popup šele ko se vse naloži
+window.addEventListener("load", () => {
+  setTimeout(showMotivationalPopup, 500); // malo počaka, potem pokaže
 });
