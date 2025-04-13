@@ -335,6 +335,14 @@ function updateGoalProgress() {
   // 📊 Prikaz napredka
   document.getElementById("goalProgressText").textContent =
     `📈 Ta teden: ${thisWeekTotal}/${goal} sklec (${goal > 0 ? Math.floor((thisWeekTotal / goal) * 100) : 0}%)`;
+  
+    const congratsMessage = document.getElementById("congratsMessage");
+  if (goal > 0 && thisWeekTotal >= goal) {
+    congratsMessage.textContent = "🎉 Dosegel si svoj cilj! Ponosni smo nate! 💪";
+  } else {
+    congratsMessage.textContent = "";
+  }
+
 }
 
 function showBadge(award) {
