@@ -512,14 +512,14 @@ window.addEventListener("load", () => {
       // Pokaži popup
       popup.classList.remove("popup-hidden");
 
-      // Samodejno zapiranje po 5 sekundah
+      // Samodejno zapiranje popup okna po 5 sekundah
       setTimeout(() => {
         popup.classList.add("popup-hidden");  // Skriva popup po 5 sekundah
-      }, 5000);
+      }, 5000);  // 5000 ms = 5 sekund
 
-      // Gumb za zapiranje - ročno
+      // Gumb za zapiranje
       closeBtn.addEventListener("click", () => {
-        popup.classList.add("popup-hidden");  // Skriva popup takoj ob kliku
+        popup.classList.add("popup-hidden");  // Skriva popup takoj ob kliku na gumb
       });
     }
   }, 500); // Počakaj 0.5 sekunde po nalaganju strani
