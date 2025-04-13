@@ -499,22 +499,19 @@ const motivationalQuotes = [
 ];
 
 window.addEventListener("load", () => {
-  // Počakaj 500 ms, nato pokaži pop-up
   setTimeout(() => {
     const popup = document.getElementById("motivational-popup");
     const text = document.getElementById("motivational-text");
     const closeBtn = document.getElementById("close-popup-btn");
 
-    const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
-    text.textContent = randomQuote;
+    if (popup && text && closeBtn) {
+      const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+      text.textContent = randomQuote;
+      popup.classList.remove("popup-hidden");
 
-    popup.classList.remove("popup-hidden");
-
-    // Gumb za zapiranje
-    if (closeBtn) {
       closeBtn.addEventListener("click", () => {
         popup.classList.add("popup-hidden");
       });
     }
-  }, 500);
+  }, 500); // počakamo 0.5 sekunde po nalaganju
 });
