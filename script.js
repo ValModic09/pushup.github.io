@@ -505,13 +505,17 @@ window.addEventListener("load", () => {
     const closeBtn = document.getElementById("close-popup-btn");
 
     if (popup && text && closeBtn) {
+      // Izberi naključen citat
       const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
       text.textContent = randomQuote;
+
+      // Pokaži popup
       popup.classList.remove("popup-hidden");
 
+      // Dodaj dogodek za zapiranje
       closeBtn.addEventListener("click", () => {
-        popup.classList.add("popup-hidden");
+        popup.classList.add("popup-hidden");  // Skriva popup
       });
     }
-  }, 500); // počakamo 0.5 sekunde po nalaganju
+  }, 500); // Počakaj 0.5 sekunde po nalaganju strani
 });
