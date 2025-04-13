@@ -338,7 +338,7 @@ function updateGoalProgress() {
   
     const congratsMessage = document.getElementById("congratsMessage");
   if (goal > 0 && thisWeekTotal >= goal) {
-    congratsMessage.textContent = "🎉 Dosegel si svoj cilj! Ponosni smo nate! 💪";
+    congratsMessage.textContent = "🎉 Dosegela si svoj cilj! Ponosen sem nate! 💪";
   } else {
     congratsMessage.textContent = "";
   }
