@@ -487,11 +487,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 const motivationalQuotes = [
   "Bravo, ponosen sem nate! 💪🔥",
-  "Odlično si začel! 🚀",
+  "Odlično si začela! 🚀",
   "Tole gre v pravo smer! ➡️🌟",
   "Samo tako naprej! 🛤️💯",
   "Zaslužiš si pohvalo! 👏🥇",
-  "Z vsako vadbo si boljši! 📈🏐",
+  "Z vsako vadbo si boljša! 📈🏐",
   "Vztrajaj, gre ti super! 🔁🧠",
   "Vse se začne z enim korakom! 👣🎯",
   "Tvoje delo šteje – ne odnehaj! 🧱🏗️",
