@@ -498,26 +498,23 @@ const motivationalQuotes = [
   "Lepo, da si danes tukaj! 🫶✨"
 ];
 
-function showMotivationalPopup() {
-  const popup = document.getElementById("motivational-popup");
-  const text = document.getElementById("motivational-text");
-  const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
-  text.textContent = randomQuote;
-  popup.classList.remove("popup-hidden");
-}
-
-function closePopup() {
-  const popup = document.getElementById("motivational-popup");
-  popup.classList.add("popup-hidden");
-}
-
 window.addEventListener("load", () => {
-  setTimeout(showMotivationalPopup, 500);
-});
+  // Počakaj 500 ms, nato pokaži pop-up
+  setTimeout(() => {
+    const popup = document.getElementById("motivational-popup");
+    const text = document.getElementById("motivational-text");
+    const closeBtn = document.getElementById("close-popup-btn");
 
-document.addEventListener("DOMContentLoaded", () => {
-  const closeBtn = document.getElementById("close-popup-btn");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", closePopup);
-  }
+    const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+    text.textContent = randomQuote;
+
+    popup.classList.remove("popup-hidden");
+
+    // Gumb za zapiranje
+    if (closeBtn) {
+      closeBtn.addEventListener("click", () => {
+        popup.classList.add("popup-hidden");
+      });
+    }
+  }, 500);
 });
