@@ -251,75 +251,33 @@ window.onload = loadData;
 
 </script>
 
-// Funkcija za odprtje modalnega okna za kodo
-function openCodeModal() {
-  document.getElementById('codeModal').style.display = 'block';
-}
+<!-- Gumb za urejanje datuma -->
+<button id="editDateButton" onclick="openCodeModal()">✏️ Uredi datum</button>
 
-// Funkcija za zapiranje modalnega okna za kodo
-function closeCodeModal() {
-  document.getElementById('codeModal').style.display = 'none';
-}
+<!-- Modal za vnos kode -->
+<div id="codeModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeCodeModal()">&times;</span>
+    <h3>Vnesi kodo za odklepanje</h3>
+    <input type="password" id="secretCode" placeholder="Vnesi kodo" />
+    <button onclick="unlockEditor()">🔓 Potrdi</button>
+  </div>
+</div>
 
-// Funkcija za odklepanje urejevalnika (vnos kode)
-function unlockEditor() {
-  const code = document.getElementById('secretCode').value;
-  if (code === "140197") {
-    closeCodeModal(); // Zapri modal za kodo
-    openDateModal();  // Odpri modal za datum
-    showPopup("Urejevalnik odklenjen ✅");
-  } else {
-    showPopup("Napačna koda ❌", "#f44336");
-  }
-}
+<!-- Modal za izbiro datuma -->
+<div id="dateModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeDateModal()">&times;</span>
+    <h3>Izberi datum</h3>
+    <input type="date" id="editDate" /><br><br>
+    <input type="number" id="editReps" placeholder="Total Reps (npr. 50)" /><br><br>
+    <input type="number" id="editMaxSet" placeholder="Max Set (npr. 10)" /><br><br>
+    <button onclick="saveEditedData()">💾 Shrani spremembe</button>
+  </div>
+</div>
 
-// Funkcija za odprtje modalnega okna za datum
-function openDateModal() {
-  document.getElementById('dateModal').style.display = 'block';
-}
-
-// Funkcija za zapiranje modalnega okna za datum
-function closeDateModal() {
-  document.getElementById('dateModal').style.display = 'none';
-}
-
-// Funkcija za shranjevanje sprememb (datum, reps, max set)
-function saveEditedData() {
-  const date = document.getElementById('editDate').value;
-  const reps = parseInt(document.getElementById('editReps').value);
-  const maxSet = parseInt(document.getElementById('editMaxSet').value);
-
-  if (!date || isNaN(reps) || isNaN(maxSet)) {
-    showPopup("Prosim, izpolni vsa polja!", "#f44336");
-    return;
-  }
-
-  let data = JSON.parse(localStorage.getItem("exerciseData")) || {};
-
-  data[date] = {
-    totalReps: reps,
-    entries: [reps],
-    maxSets: [maxSet]
-  };
-
-  localStorage.setItem("exerciseData", JSON.stringify(data));
-  showPopup("Spremembe shranjene za " + date + " ✅");
-  closeDateModal(); // Zapri modal za datum
-}
-
-// Funkcija za prikaz sporočila (popup)
-function showPopup(message, color = "#4CAF50") {
-  const popup = document.getElementById("popup");
-  popup.textContent = message;
-  popup.style.backgroundColor = color;
-  popup.style.display = "block";
-  popup.style.opacity = "1";
-
-  setTimeout(() => {
-    popup.style.opacity = "0";
-    setTimeout(() => popup.style.display = "none", 300);
-  }, 5000);
-}
+<!-- Povezava na ločeno JS datoteko datum.js -->
+<script src="datum.js"></script>
 
 
 </body>
