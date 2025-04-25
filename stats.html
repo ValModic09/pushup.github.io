@@ -250,6 +250,43 @@ window.onload = loadData;
 
 
 </script>
+
+    <!-- 🔐 Odklepanje z geslom -->
+<input type="password" id="secretCode" placeholder="Vnesi kodo" />
+<button onclick="unlockEditor()">🔓 Potrdi</button>
+
+<!-- ✏️ Urejevalnik dneva -->
+<div id="editSection" style="display:none; margin-top: 20px;">
+  <h3>✏️ Uredi dan</h3>
+  <!-- Koledar -->
+  <input type="date" id="editDate" /><br><br>
+  <input type="number" id="editReps" placeholder="Total Reps (npr. 50)" /><br><br>
+  <input type="number" id="editMaxSet" placeholder="Max Set (npr. 10)" /><br><br>
+  <button onclick="saveEditedData()">💾 Shrani spremembe</button>
+</div>
+
+<!-- 🔔 Popup za sporočila -->
+<div id="popup" style="
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+  font-weight: bold;
+  transition: opacity 0.3s ease;
+">
+  Sporočilo
+</div>
+
+<!-- Povezava na ločeno JS datoteko -->
+<script src="script.js"></script>
+
 </body>
 </html>
 
