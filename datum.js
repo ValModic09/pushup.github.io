@@ -1,3 +1,9 @@
+// Inicializacija Flatpickr za input element
+flatpickr("#editDate", {
+  dateFormat: "Y-m-d",  // Format datuma (leto-mesec-dan)
+  allowInput: true       // Omogoči ročni vnos datuma
+});
+
 // Funkcija za odprtje modalnega okna za kodo
 function openCodeModal() {
   document.getElementById('codeModal').style.display = 'block';
@@ -77,5 +83,5 @@ function showPopup(message, color = "#4CAF50") {
   setTimeout(() => {
     popup.style.opacity = "0";
     setTimeout(() => popup.style.display = "none", 300);
-  }, 1000);
+  }, 2000);
 }
