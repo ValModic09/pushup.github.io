@@ -69,7 +69,7 @@ function saveEditedData() {
   // Osveži stran po 5 sekundah
   setTimeout(function() {
     location.reload(); // Osveži stran
-  }, 1000);
+  }, 5000);
 }
 
 // Funkcija za prikaz sporočila (popup)
@@ -83,5 +83,5 @@ function showPopup(message, color = "#4CAF50") {
   setTimeout(() => {
     popup.style.opacity = "0";
     setTimeout(() => popup.style.display = "none", 300);
-  }, 2000);
+  }, 5000);
 }
