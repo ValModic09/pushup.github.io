@@ -372,3 +372,18 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
+/* Popup stilizacija */
+#popup {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
