@@ -44,15 +44,26 @@ function saveEditedData() {
 
   let data = JSON.parse(localStorage.getItem("exerciseData")) || {};
 
+  // Posodobi podatke za izbrani datum
   data[date] = {
     totalReps: reps,
     entries: [reps],
     maxSets: [maxSet]
   };
 
+  // Shrani posodobljene podatke nazaj v localStorage
   localStorage.setItem("exerciseData", JSON.stringify(data));
+
+  // Prikaz popup sporočila
   showPopup("Spremembe shranjene za " + date + " ✅");
-  closeDateModal(); // Zapri modal za datum
+
+  // Zapri modal za datum
+  closeDateModal();
+
+  // Osveži stran po 5 sekundah
+  setTimeout(function() {
+    location.reload(); // Osveži stran
+  }, 1000);
 }
 
 // Funkcija za prikaz sporočila (popup)
@@ -66,6 +77,5 @@ function showPopup(message, color = "#4CAF50") {
   setTimeout(() => {
     popup.style.opacity = "0";
     setTimeout(() => popup.style.display = "none", 300);
-  }, 5000);
+  }, 1000);
 }
-
