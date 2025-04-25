@@ -1,13 +1,36 @@
+// Funkcija za odprtje modalnega okna za kodo
+function openCodeModal() {
+  document.getElementById('codeModal').style.display = 'block';
+}
+
+// Funkcija za zapiranje modalnega okna za kodo
+function closeCodeModal() {
+  document.getElementById('codeModal').style.display = 'none';
+}
+
+// Funkcija za odklepanje urejevalnika (vnos kode)
 function unlockEditor() {
   const code = document.getElementById('secretCode').value;
   if (code === "140197") {
-    document.getElementById('editSection').style.display = 'block';
+    closeCodeModal(); // Zapri modal za kodo
+    openDateModal();  // Odpri modal za datum
     showPopup("Urejevalnik odklenjen ✅");
   } else {
     showPopup("Napačna koda ❌", "#f44336");
   }
 }
 
+// Funkcija za odprtje modalnega okna za datum
+function openDateModal() {
+  document.getElementById('dateModal').style.display = 'block';
+}
+
+// Funkcija za zapiranje modalnega okna za datum
+function closeDateModal() {
+  document.getElementById('dateModal').style.display = 'none';
+}
+
+// Funkcija za shranjevanje sprememb (datum, reps, max set)
 function saveEditedData() {
   const date = document.getElementById('editDate').value;
   const reps = parseInt(document.getElementById('editReps').value);
@@ -28,8 +51,10 @@ function saveEditedData() {
 
   localStorage.setItem("exerciseData", JSON.stringify(data));
   showPopup("Spremembe shranjene za " + date + " ✅");
+  closeDateModal(); // Zapri modal za datum
 }
 
+// Funkcija za prikaz sporočila (popup)
 function showPopup(message, color = "#4CAF50") {
   const popup = document.getElementById("popup");
   popup.textContent = message;
