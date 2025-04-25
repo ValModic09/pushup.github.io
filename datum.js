@@ -42,6 +42,22 @@ function saveEditedData() {
     return;
   }
 
+  // Preveri, če sta ponovitev in max set enaka 0
+  if (reps === 0 && maxSet === 0) {
+    let data = JSON.parse(localStorage.getItem("exerciseData")) || {};
+
+    // Če so podatki za ta datum, jih izbrišemo
+    if (data[date]) {
+      delete data[date];
+      localStorage.setItem("exerciseData", JSON.stringify(data));
+      showPopup("Podatki za " + date + " so bili odstranjeni ✅", "#f44336");
+    }
+
+    // Zapri modal za datum
+    closeDateModal();
+    return;
+  }
+
   let data = JSON.parse(localStorage.getItem("exerciseData")) || {};
 
   // Posodobi podatke za izbrani datum
@@ -79,3 +95,4 @@ function showPopup(message, color = "#4CAF50") {
     setTimeout(() => popup.style.display = "none", 300);
   }, 2000);
 }
+
