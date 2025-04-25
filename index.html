@@ -120,75 +120,51 @@
 
  <script>
         // Tukaj dodaj kodo za ustvarjanje grafa
-        if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
-            const ctxExercise = document.getElementById('exerciseChart').getContext('2d');
-            const exerciseChart = new Chart(ctxExercise, {
-                type: 'line',
-                data: {
-                    labels: labels, // Dnevi (datumi)
-                    datasets: [
-                        {
-                            label: 'Sklece',
-                            data: totalRepsData, // Število sklec
-                            borderColor: 'rgba(75, 192, 192, 1)', // Barva za sklece
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Osvetlitev
-                            fill: true,
-                            tension: 0.4, // Mehak krivulja
-                            pointRadius: 5, // Velikost točk
-                            pointHoverRadius: 7, // Velikost točk ob premiku miške
-                        },
-                        {
-                            label: 'Max',
-                            data: maxSetsData, // Max seti
-                            borderColor: 'rgba(255, 99, 132, 1)', // Barva za max
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)', // Osvetlitev
-                            fill: false, // Ne izpolnjuj ozadja
-                            tension: 0.4, // Mehak krivulja
-                            pointRadius: 5, // Velikost točk
-                            pointHoverRadius: 7, // Velikost točk ob premiku miške
-                        }
-                    ]
+        // Ustvari graf za sklope
+if (labels.length > 0 && totalRepsData.length > 0) {
+    const ctx = document.getElementById('exerciseChart').getContext('2d');
+    const exerciseChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels, // Sortirani datumi
+            datasets: [{
+                label: 'Število sklec',
+                data: totalRepsData, // Število sklec
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true,
+                tension: 0.4
+            }, {
+                label: 'Max število setov',
+                data: maxSetsData, // Max seti
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                fill: false,
+                tension: 0.4
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Datum'
+                    }
                 },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#333', // Barva besedila v legendi
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Število sklec',
-                                color: '#333', // Barva naslova osi Y
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Datum',
-                                color: '#333', // Barva naslova osi X
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        }
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Število'
                     }
                 }
-            });
-        } else {
-            console.log('Podatki niso pravilno nastavljeni');
+            }
         }
+    });
+} else {
+    console.log('Podatki niso pravilno nastavljeni za graf');
+}
+
     </script>
 
 
