@@ -68,3 +68,4 @@ function showPopup(message, color = "#4CAF50") {
     setTimeout(() => popup.style.display = "none", 300);
   }, 5000);
 }
+
