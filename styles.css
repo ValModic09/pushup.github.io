@@ -309,6 +309,7 @@ domov {
   background-color: #45a049;
 }
 /* Slog za modal za kodo */
+/* Slog za modal za kodo */
 .modalKoda {
   display: none;
   position: fixed;
@@ -336,7 +337,7 @@ domov {
 
 /* Modal content */
 .modal-content {
-  background-color: #242634;
+  background-color: #fff;
   margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
@@ -387,3 +388,4 @@ button:hover {
   opacity: 0;
   transition: opacity 0.5s ease;
 }
+
