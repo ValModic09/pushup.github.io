@@ -6,6 +6,7 @@ function openCodeModal() {
 // Funkcija za zapiranje modalnega okna za kodo
 function closeCodeModal() {
   document.getElementById('codeModal').style.display = 'none';
+  document.getElementById('secretCode').value = '';  // Po zaprtju izprazni polje za kodo
 }
 
 // Funkcija za odklepanje urejevalnika (vnos kode)
