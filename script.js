@@ -535,21 +535,3 @@ window.addEventListener("load", () => {
     }
   }, 500); // Počakaj malo po nalaganju strani
 });
-// Pridobi podatke iz localStorage
-let exerciseData = JSON.parse(localStorage.getItem("exerciseData")) || {};
-
-// Pridobi vse datume iz exerciseData in jih sortiraj
-let sortedDates = Object.keys(exerciseData).sort((a, b) => new Date(a) - new Date(b));
-
-// Preveri, ali so datumi pravilno sortirani
-console.log(sortedDates);
-
-// Pripravi podatke za graf
-let labels = sortedDates; // Datumi
-let totalRepsData = sortedDates.map(date => exerciseData[date].totalReps);
-let maxSetsData = sortedDates.map(date => exerciseData[date].maxSets[0]); // predpostavljamo, da maxSets vsebuje samo en element
-
-// Preveri, ali so podatki pravilno pripravljeni
-console.log(labels);
-console.log(totalRepsData);
-console.log(maxSetsData);
