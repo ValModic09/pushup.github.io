@@ -214,6 +214,7 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>// Funkcija za izračun začetka tedna (ponedeljek)
+// Funkcija za izračun začetka tedna (ponedeljek)
 function getStartOfWeek(date) {
   const day = date.getDay(); // 0 = nedelja, 1 = ponedeljek, ...
   const diff = day === 0 ? -6 : 1 - day; // Če je nedelja (0), se premaknemo nazaj za 6 dni, sicer za (1 - dan)
@@ -254,9 +255,9 @@ function displaySuggestion() {
   let suggestion = '';
 
   if (maxCount >= 7) {
-    suggestion += `\n👏 Bravo, svoj max si dosegla že ${newMax}-krat! Zdaj je čas, da svoj max dvigneš za 1! 💪 Pokaži si, kaj zmoreš!😊`;
+    suggestion += `\n👏 Bravo, svoj max ${newMax} sklec si dosegla že ${maxCount}-krat! Zdaj je čas, da svoj max dvigneš za 1! 💪 Pokaži si, kaj zmoreš!😊`;
   } else {
-    suggestion += `\nTvoj trenutni max je ${newMax} sklec. 🎯 Do zdaj si ga dosegla ${maxCount}-krat. Nadaljuj z istim številom sklec še nekajkrat, da utrdiš svojo moč! 💥`;
+    suggestion += `\nTvoj trenutni max je ${newMax} sklec. 🎯 Nadaljuj z istim številom sklec še nekajkrat, da utrdiš svojo moč! 💥`;
   }
 
   // Določimo začetek tedna (ponedeljek)
