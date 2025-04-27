@@ -245,7 +245,7 @@ function displaySuggestion() {
   // Izračun povprečja in določanje novega "maxa"
   const sumMax = allMaxSets.reduce((acc, curr) => acc + curr, 0);
   const averageMax = Math.floor(sumMax / allMaxSets.length); // Zaokroženo navzdol
-  const newMax = averageMax + 1; // Povečamo za 1
+  const newMax = averageMax + 1;
 
   // Preverimo, koliko krat je bil dosežen nov max (ali več)
   const maxCount = allMaxSets.filter(max => max >= newMax).length - 1;
