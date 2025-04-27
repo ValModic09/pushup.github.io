@@ -66,7 +66,7 @@ function addExercise() {
     setsData.push(totalRepsForDay);
     updateChart();
     updateGoalProgress();
-   const textToCopy = `Zjutraj: ${setsMorning} setov × ${repsMorning} sklec\nZvečer: ${setsEvening} setov × ${repsEvening} sklec + max set ${maxSetEvening} sklec`;
+   const textToCopy = `Zjutraj: ${setsMorning} setov × ${repsMorning} sklec,   \nzvečer: ${setsEvening} setov × ${repsEvening} sklec + max set ${maxSetEvening} sklec💪`;
 navigator.clipboard.writeText(textToCopy);
 
 }
