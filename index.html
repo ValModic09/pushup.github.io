@@ -288,10 +288,7 @@ function displaySuggestion() {
     const newGoal = Math.round(weeklyGoal * 1.05); 
     suggestion += `\n🎉 Fantastično! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj novi cilj je: ${newGoal} sklec! 🎯 Ponosen sem nate😊💪 Samo tko naprej💪 ` ;
     
-    // Posodobimo nov cilj v localStorage
-    localStorage.setItem('weeklyGoal', JSON.stringify(newGoal));
-  }
-
+    
   // Prikaz nasveta v modalnem oknu
   document.getElementById('user-suggestion').innerText = suggestion;
 
