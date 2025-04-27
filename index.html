@@ -213,8 +213,7 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-// Funkcija za izračun začetka tedna (ponedeljek)
+<script>// Funkcija za izračun začetka tedna (ponedeljek)
 function getStartOfWeek(date) {
   const day = date.getDay(); // 0 = nedelja, 1 = ponedeljek, ...
   const diff = day === 0 ? -6 : 1 - day; // Če je nedelja (0), se premaknemo nazaj za 6 dni, sicer za (1 - dan)
@@ -235,8 +234,30 @@ function displaySuggestion() {
     return;
   }
 
-  // Dobi trenutni datum
-  const currentDate = new Date().toISOString().split('T')[0];
+  // Skupni podatki za vse čase (ne le za ta teden)
+  let allMaxSets = [];
+  for (const dateStr in exerciseData) {
+    if (exerciseData[dateStr].maxSets && Array.isArray(exerciseData[dateStr].maxSets)) {
+      allMaxSets = allMaxSets.concat(exerciseData[dateStr].maxSets);
+    }
+  }
+
+  // Izračun povprečja in določanje novega "maxa"
+  const sumMax = allMaxSets.reduce((acc, curr) => acc + curr, 0);
+  const averageMax = Math.floor(sumMax / allMaxSets.length); // Zaokroženo navzdol
+  const newMax = averageMax + 1; // Povečamo za 1
+
+  // Preverimo, koliko krat je bil dosežen nov max (ali več)
+  const maxCount = allMaxSets.filter(max => max >= newMax).length;
+
+  // Predlagamo povečanje števila sklec
+  let suggestion = '';
+
+  if (maxCount >= 7) {
+    suggestion += `\n👏 Bravo, svoj max si dosegla že ${newMax}-krat! Zdaj je čas, da svoj max dvigneš za 1! 💪 Pokaži si, kaj zmoreš!😊`;
+  } else {
+    suggestion += `\nTvoj trenutni max je ${newMax} sklec. 🎯 Do zdaj si ga dosegla ${maxCount}-krat. Nadaljuj z istim številom sklec še nekajkrat, da utrdiš svojo moč! 💥`;
+  }
 
   // Določimo začetek tedna (ponedeljek)
   const today = new Date();
@@ -251,45 +272,6 @@ function displaySuggestion() {
     }
   }
 
-  // Skupni podatki za vse čase (ne le za ta teden)
-  let allMaxSets = [];
-  for (const dateStr in exerciseData) {
-    if (exerciseData[dateStr].maxSets && Array.isArray(exerciseData[dateStr].maxSets)) {
-      allMaxSets = allMaxSets.concat(exerciseData[dateStr].maxSets);
-    }
-  }
-
-  // Izračunaj povprečno število maksimalnih sklec
-  let totalMaxPushups = 0;
-  let maxPushupCount = 0;
-
-  for (const dateStr in exerciseData) {
-    if (exerciseData[dateStr].maxSets && Array.isArray(exerciseData[dateStr].maxSets)) {
-      exerciseData[dateStr].maxSets.forEach(max => {
-        totalMaxPushups += max;
-        maxPushupCount++;
-      });
-    }
-  }
-
-  const averageMaxPushups = maxPushupCount > 0 ? totalMaxPushups / maxPushupCount : 0;
-  const newMax = Math.floor(averageMaxPushups) + 1; // Zaokroži navzdol in poveča za 1
-
-  // Izračunamo, če je novo število doseženo že 7-krat
-  const maxCount = allMaxSets.filter(max => max >= newMax).length;
-
-  let suggestion = '';
-
-  // Ohranimo zapis "tvoj max je X sklec"
-  const currentMax = allMaxSets.length > 0 ? Math.max(...allMaxSets) : 0;
-  
-
-  if (maxCount >= 7) {
-    suggestion += `\n👏 Bravo, svoj max ${currentMax} sklec si dosegla že ${maxCount}-krat! Zdaj je čas, da svoj max dvigneš na ${newMax} sklec! 💪 Pokaži si, kaj zmoreš!😊`;
-  } else {
-    suggestion += `\nTvoj trenutni max je ${currentMax} sklec. 🎯 Do zdaj si ga dosegla ${maxCount}-krat. Nadaljuj z istim številom sklec še nekajkrat, da utrdiš svojo moč! 💥`;
-  }
-
   // Preverimo še tedenski cilj
   const remainingReps = weeklyGoal - weeklyTotal;
   if (remainingReps > 0) {
@@ -300,6 +282,8 @@ function displaySuggestion() {
     const newGoal = Math.round(weeklyGoal * 1.1);
     suggestion += `\n\n🎉 Bravo! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆`;
     suggestion += `\nTvoj predlagani novi cilj je: ${newGoal} sklec! 🎯 Ponosen sem nate in tudi ti si lahko!😊 Samo tako naprej!💪`;
+
+    // Ne spreminjamo weeklyGoal v localStorage!
   }
 
   // Prikaz nasveta v modalnem oknu
@@ -317,6 +301,5 @@ document.getElementById('close-modal').addEventListener('click', () => {
   document.getElementById('suggestion-modal').style.display = 'none';
 });
 </script>
-
 </body>
 </html>
