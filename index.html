@@ -200,7 +200,7 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+ <script>
     // Funkcija za prikaz nasvetov
     function displaySuggestion() {
       // Preberemo podatke iz localStorage
@@ -214,37 +214,43 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
       }
 
       // Pridobimo podatke o zadnjem maksimalnem številu sklec (maxSets) in skupnem številu
-      const lastMaxPushups = exerciseData.maxSets || 0; // Preberemo maxSets
-      const weeklyTotal = exerciseData.weeklyTotal || 0;
-      const maxCount = exerciseData.maxCount || {}; // Objekt, ki spremlja število doseženih maksimumov
+      const lastMaxPushups = exerciseData.maxSets[exerciseData.maxSets.length - 1] || 0; // Zadnji maksimum
+      const weeklyTotal = exerciseData.totalReps || 0;
+      const maxCount = exerciseData.maxSets.filter(max => max === lastMaxPushups).length; // Kolikokrat je bil dosežen zadnji maksimum
 
       // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
       let suggestion = '';
 
       // Preverimo, koliko krat je bil dosežen trenutni maksimum
-      if (maxCount[lastMaxPushups] >= 5) {  // Če je bil maksimum dosežen 5-krat
+      if (maxCount >= 5) {  // Če je bil maksimum dosežen 5-krat
         // Povečamo maksimum
         const newMax = lastMaxPushups + 1;
         suggestion = `👏 Bravo, dosegla si ${lastMaxPushups} sklec že 5-krat! Zdaj je čas, da svojo moč dvigneš na ${newMax} sklec! 💪 Pokaži sebi, da zmoreš! 😊`;
 
         // Posodobimo podatke v localStorage za nov maksimum
-        exerciseData.maxSets = newMax; // Spremenimo maxSets
-        exerciseData.maxCount[newMax] = 0; // Za nov maksimum začnemo šteti od začetka
+        exerciseData.maxSets.push(newMax); // Dodamo nov maksimum v seznam
         localStorage.setItem('exerciseData', JSON.stringify(exerciseData));
+
       } else {
         // Če trenutni maksimum ni dosežen dovoljkrat, svetujemo, da nadaljuje z njim
         suggestion = `Tvoj trenutni maksimum je ${lastMaxPushups} sklec. 🎯 Poskusi doseči ta maksimum še nekajkrat in kmalu boš pripravljena na nov izziv! 💥`;
       }
 
-      // Če je uporabnik dosegel tedenski cilj, predlagamo nov cilj
-      if (weeklyTotal >= weeklyGoal) {
-        const newGoal = weeklyGoal + 10; // Povečamo cilj za 10% za naslednji teden
-        suggestion += `\n🎉 Fantastično! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆 Tvoj novi cilj za naslednji teden je ${newGoal} sklec! Poglej se, kako napreduješ! 🌟`;
+      // Izračunamo, koliko manjkajoče število sklec je do tedenskega cilja
+      const remainingReps = weeklyGoal - weeklyTotal;
+      if (remainingReps > 0) {
+        suggestion += `\n💪 Tvoj cilj (${weeklyGoal} sklec) je še pred teboj! Manjka ti še ${remainingReps} sklec, da dosežeš svoj cilj! Daj vse od sebe! 🌟`;
+
+        // Predlogi za dosego cilja
+        suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več na vsakem setu, da povečaš napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in počasi povečala moč. 💪\n4️⃣ Vrjamm, da ti lahko rata😊`;
+        
       } else {
-        // Če cilj ni dosežen, mu predlagamo, kako doseči cilje
-        suggestion += `\n💪 Tvoj cilj (${weeklyGoal} sklec) je še pred teboj! Poskusi tole:`;
-        suggestion += '\n- Osredotoči se na pravilno tehniko, da bodo tvoje sklede še bolj učinkovite. 🎯';
-        suggestion += '\n- Postopoma povečuješ število sklec v enem setu, brez preobremenitve. 📈';
+        // Predlagamo nov cilj, če je dosežen prejšnji cilj
+        const newGoal = weeklyGoal + 10;  // Povečanje cilja za 10 sklec
+        suggestion += `\n🎉 Fantastično! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj novi cilj je: ${newGoal} sklec! 🎯 Tvoja moč raste! Zdaj pa naredi naslednji korak! 💥`;
+        
+        // Posodobimo nov cilj v localStorage
+        localStorage.setItem('weeklyGoal', JSON.stringify(newGoal));
       }
 
       // Prikaz nasveta v HTML elementu
