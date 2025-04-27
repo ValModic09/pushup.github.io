@@ -259,19 +259,35 @@ function displaySuggestion() {
     }
   }
 
-  const lastMaxPushups = allMaxSets.length > 0 ? Math.max(...allMaxSets) : 0;
-  const maxCount = allMaxSets.filter(max => max === lastMaxPushups).length;
+  // Izračunaj povprečno število maksimalnih sklec
+  let totalMaxPushups = 0;
+  let maxPushupCount = 0;
 
-  // Predlagamo povečanje števila sklec
+  for (const dateStr in exerciseData) {
+    if (exerciseData[dateStr].maxSets && Array.isArray(exerciseData[dateStr].maxSets)) {
+      exerciseData[dateStr].maxSets.forEach(max => {
+        totalMaxPushups += max;
+        maxPushupCount++;
+      });
+    }
+  }
+
+  const averageMaxPushups = maxPushupCount > 0 ? totalMaxPushups / maxPushupCount : 0;
+  const newMax = Math.floor(averageMaxPushups) + 1; // Zaokroži navzdol in poveča za 1
+
+  // Izračunamo, če je novo število doseženo že 7-krat
+  const maxCount = allMaxSets.filter(max => max >= newMax).length;
+
   let suggestion = '';
 
-  if (maxCount >= 7) {
-    const newMax = lastMaxPushups + 1;
-    suggestion = `👏 Bravo, svoj max ${lastMaxPushups} sklec si dosegla že ${maxCount}-krat! Zdaj je čas, da svoj max dvigneš na ${newMax} sklec! 💪 Pokaži si, kaj zmoreš!😊`;
+  // Ohranimo zapis "tvoj max je X sklec"
+  const currentMax = allMaxSets.length > 0 ? Math.max(...allMaxSets) : 0;
+  suggestion += `Tvoj trenutni max je ${currentMax} sklec. 🎯`;
 
-    // Ne shranjujemo novega maxa avtomatsko!
+  if (maxCount >= 7) {
+    suggestion += `\n👏 Bravo, svoj max ${currentMax} sklec si dosegla že ${maxCount}-krat! Zdaj je čas, da svoj max dvigneš na ${newMax} sklec! 💪 Pokaži si, kaj zmoreš!😊`;
   } else {
-    suggestion = `Tvoj trenutni max je ${lastMaxPushups} sklec. 🎯 Do zdaj si ga dosegla ${maxCount}-krat. Nadaljuj z istim številom sklec še nekajkrat, da utrdiš svojo moč! 💥`;
+    suggestion += `\nTvoj trenutni max je ${currentMax} sklec. 🎯 Do zdaj si ga dosegla ${maxCount}-krat. Nadaljuj z istim številom sklec še nekajkrat, da utrdiš svojo moč! 💥`;
   }
 
   // Preverimo še tedenski cilj
@@ -284,8 +300,6 @@ function displaySuggestion() {
     const newGoal = Math.round(weeklyGoal * 1.1);
     suggestion += `\n\n🎉 Bravo! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆`;
     suggestion += `\nTvoj predlagani novi cilj je: ${newGoal} sklec! 🎯 Ponosen sem nate in tudi ti si lahko!😊 Samo tako naprej!💪`;
-
-    // Ne spreminjamo weeklyGoal v localStorage!
   }
 
   // Prikaz nasveta v modalnem oknu
@@ -303,5 +317,6 @@ document.getElementById('close-modal').addEventListener('click', () => {
   document.getElementById('suggestion-modal').style.display = 'none';
 });
 </script>
+
 </body>
 </html>
