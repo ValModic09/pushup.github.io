@@ -257,22 +257,10 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
       document.getElementById('user-suggestion').innerText = suggestion;
     }
 
-    // Funkcija za nastavljanje testnih podatkov v localStorage
-    function setTestData() {
-      const testExerciseData = {
-        totalReps: 50,
-        entries: [50],
-        maxSets: [12]  // Testni podatki za max sklec
-      };
-      const testWeeklyGoal = 100;  // Testni tedenski cilj
 
-      // Nastavimo testne podatke v localStorage
-      localStorage.setItem('exerciseData', JSON.stringify(testExerciseData));
-      localStorage.setItem('weeklyGoal', JSON.stringify(testWeeklyGoal));
-    }
+  
 
-    // Nastavimo testne podatke in prikažemo nasvet
-    setTestData();
+    
     displaySuggestion();
   </script>
 </body>
