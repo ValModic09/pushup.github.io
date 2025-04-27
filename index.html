@@ -257,14 +257,17 @@ function displaySuggestion() {
   // Pridobimo podatke o zadnjem maksimalnem številu sklec (maxSets) in skupnem številu
   const lastMaxPushups = dataToUse.maxSets[dataToUse.maxSets.length - 1] || 0; // Zadnji maksimum
   const weeklyTotal = Object.values(exerciseData).reduce((total, data) => total + (data.totalReps || 0), 0); // Skupno število sklec v tem tednu
-  const maxCount = dataToUse.maxSets.filter(max => max === lastMaxPushups).length; // Kolikokrat je bil dosežen zadnji maksimum
 
-    
-    console.log(`MaxCount: ${maxCount} (lastMaxPushups: ${lastMaxPushups})`);
-  
-    
-    
-    // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
+  // Preštejemo vse vnose za trenutni maksimum (ne samo prejšnji datum)
+  const maxCount = Object.values(exerciseData).reduce((count, data) => {
+    // Preštejemo vse nastavitve, ki so enake trenutnemu maksimumu
+    return count + data.maxSets.filter(max => max === lastMaxPushups).length;
+  }, 0);
+
+  // Debugging: preveri maxCount
+  console.log(`MaxCount: ${maxCount} (lastMaxPushups: ${lastMaxPushups})`);
+
+  // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
   let suggestion = '';
 
   // Preverimo, koliko krat je bil dosežen trenutni maksimum
@@ -289,14 +292,12 @@ function displaySuggestion() {
     suggestion += `\n💪 Tvoj cilj (${weeklyGoal} sklec) je še pred teboj! Manjka ti še ${remainingReps} sklec, da dosežeš svoj cilj! Daj vse od sebe! 🌟`;
 
     // Predlogi za dosego cilja
-    suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več na vsakem setu, da povečaš napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in počasi povečala moč. 💪\n4️⃣ Verjamm vate, da ti lahko uspe😊`;
+    suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več na vsakem setu, da povečaš napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in počasi povečala moč. 💪\n4️⃣ Verjamem vate, da ti lahko uspe😊`;
 
   } else {
     // Predlagamo nov cilj, če je dosežen prejšnji cilj
     const newGoal = Math.round(weeklyGoal * 1.1);  // Povečanje cilja za 10%
-    suggestion += `\n🎉 Bravo! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj novi cilj je lahko: ${newGoal} sklec! 🎯 Ponosen sem nate😊💪 Samo tako naprej💪`;
-
-
+    suggestion += `\n🎉 Bravo! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj novi cilj je: ${newGoal} sklec! 🎯 Ponosen sem nate😊💪 Samo tako naprej💪`;
   }
 
   // Prikaz nasveta v modalnem oknu
