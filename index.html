@@ -271,10 +271,10 @@ function displaySuggestion() {
   let suggestion = '';
 
   // Preverimo, koliko krat je bil dosežen trenutni maksimum
-  if (maxCount >= 5) {  // Če je bil maksimum dosežen 5-krat
+  if (maxCount >= 7) {  // Če je bil maksimum dosežen 5-krat
     // Povečamo maksimum
     const newMax = lastMaxPushups + 1;
-    suggestion = `👏 Bravo, dosegla si ${lastMaxPushups} sklec že 5-krat! Zdaj je čas, da svojo moč dvigneš na ${newMax} sklec! 💪 Pokaži sebi, da zmoreš! 😊`;
+    suggestion = `👏 Bravo, dosegla si ${lastMaxPushups} sklec že ${maxCount}-krat! Zdaj je čas, da svojo moč dvigneš na ${newMax} sklec! 💪 Pokaži sebi, da zmoreš! 😊`;
 
     // Posodobimo podatke v localStorage za nov maksimum
     dataToUse.maxSets.push(newMax); // Dodamo nov maksimum v seznam
