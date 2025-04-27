@@ -24,10 +24,61 @@
  
        <!-- Gumb za prenos napredka kot sliko -->
        <button id="downloadProgressBtn">Prenesi napredek kot sliko</button>
+
+     <div id="ai-suggestion" style="margin-top:20px; font-weight: bold;"></div>
+
+<button onclick="getAISuggestion()">Dobi AI nasvet</button>
+
    <!-- Gumb, ki deluje kot povezava na domačo stran -->
    <a href="index.html">
      <button class="home-btn">Nazaj na domačo stran</button>
    </a>
-   
+
+     <script>
+  async function getAISuggestion() {
+    const apiKey = 'TUKAJ_PRILEPI_SVOJ_API_KLJUČ'; // Tukaj vnesi svoj pravi API ključ
+
+    // Preberemo podatke iz localStorage
+    const exerciseData = JSON.parse(localStorage.getItem('exerciseData'));
+    const weeklyGoal = JSON.parse(localStorage.getItem('weeklyGoal'));
+
+    // Preverimo, ali so podatki prisotni
+    if (!exerciseData || !weeklyGoal) {
+      alert('Podatki niso na voljo v localStorage!');
+      return;
+    }
+
+    const lastMaxPushups = exerciseData.lastMaxPushups || 0; // zadnji maksimum
+    const weeklyTotal = exerciseData.weeklyTotal || 0; // tedensko število
+
+    // Generiramo prompt za AI
+    const prompt = `Uporabnik je zadnjič naredil ${lastMaxPushups} sklec. 
+    Skupno ta teden je naredil ${weeklyTotal} sklec. 
+    Njegov tedenski cilj je ${weeklyGoal}. 
+    Svetuj mu, kakšen naj bo njegov naslednji maksimum in tedenski cilj, v motivacijskem tonu.`;
+
+    // Pošljemo zahtevo na OpenAI API
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo", // Lahki model (cenejši in hitrejši)
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+
+    // Obdelava odgovora
+    const data = await response.json();
+    const aiText = data.choices[0].message.content;
+
+    // Prikaz odgovora v HTML elementu
+    document.getElementById('ai-suggestion').innerText = aiText;
+  }
+</script>
+
        <script src="progress.js"></script>
+     
    </body>
