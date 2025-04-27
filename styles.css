@@ -388,4 +388,6 @@ button:hover {
   opacity: 0;
   transition: opacity 0.5s ease;
 }
-
+#user-suggestion {
+  font-size: 1.5rem; /* Nastavi pisavo glede na osnovno velikost (npr. 1.5x večja od osnovne velikosti) */
+}
