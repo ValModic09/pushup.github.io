@@ -200,7 +200,8 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script> // Tukaj je tvoja koda (kjer bo funkcija displaySuggestion() in ostalo)
+<script>
+    // Funkcija za prikaz nasvetov
     function displaySuggestion() {
       // Preberemo podatke iz localStorage
       const exerciseData = JSON.parse(localStorage.getItem('exerciseData'));
@@ -212,8 +213,8 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
         return;
       }
 
-      // Pridobimo podatke o zadnjem maksimalnem številu sklec in skupnem številu
-      const lastMaxPushups = exerciseData.lastMaxPushups || 0;
+      // Pridobimo podatke o zadnjem maksimalnem številu sklec (maxSets) in skupnem številu
+      const lastMaxPushups = exerciseData.maxSets || 0; // Preberemo maxSets
       const weeklyTotal = exerciseData.weeklyTotal || 0;
       const maxCount = exerciseData.maxCount || {}; // Objekt, ki spremlja število doseženih maksimumov
 
@@ -227,7 +228,7 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
         suggestion = `👏 Bravo, dosegla si ${lastMaxPushups} sklec že 5-krat! Zdaj je čas, da svojo moč dvigneš na ${newMax} sklec! 💪 Pokaži sebi, da zmoreš! 😊`;
 
         // Posodobimo podatke v localStorage za nov maksimum
-        exerciseData.lastMaxPushups = newMax;
+        exerciseData.maxSets = newMax; // Spremenimo maxSets
         exerciseData.maxCount[newMax] = 0; // Za nov maksimum začnemo šteti od začetka
         localStorage.setItem('exerciseData', JSON.stringify(exerciseData));
       } else {
@@ -252,6 +253,6 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
 
     // Takoj prikažemo nasvet ob nalaganju strani
     displaySuggestion();
-</script>
+  </script>
 </body>
 </html>
