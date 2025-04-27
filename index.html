@@ -275,7 +275,7 @@ function displaySuggestion() {
 
   } else {
     // Če trenutni maksimum ni dosežen dovoljkrat, svetujemo, da nadaljuje z njim
-    suggestion = `Tvoj trenutni maksimum je ${lastMaxPushups} sklec. 🎯 Poskusi doseči ta maksimum še nekajkrat in kmalu boš pripravljena na nov izziv! 💥`;
+    suggestion = `Tvoj trenutni max je ${lastMaxPushups} sklec. 🎯 Poskusi doseči ta max še nekajkrat in kmalu boš pripravljena na nov izziv! 💥`;
   }
 
   // Izračunamo, koliko manjkajoče število sklec je do tedenskega cilja
@@ -289,10 +289,9 @@ function displaySuggestion() {
   } else {
     // Predlagamo nov cilj, če je dosežen prejšnji cilj
     const newGoal = Math.round(weeklyGoal * 1.1);  // Povečanje cilja za 10%
-    suggestion += `\n🎉 Fantastično! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj novi cilj je: ${newGoal} sklec! 🎯 Tvoja moč raste! Zdaj pa naredi naslednji korak! 💥`;
+    suggestion += `\n🎉 Bravo! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj novi cilj je: ${newGoal} sklec! 🎯 Ponosen sem nate😊💪 Samo tako naprej💪`;
 
-    // Posodobimo nov cilj v localStorage
-    localStorage.setItem('weeklyGoal', JSON.stringify(newGoal));
+
   }
 
   // Prikaz nasveta v modalnem oknu
