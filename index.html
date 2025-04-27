@@ -245,15 +245,7 @@ function displaySuggestion() {
 
   // Pridobimo podatke o zadnjem maksimalnem številu sklec (maxSets) in skupnem številu
   const lastMaxPushups = dataToUse.maxSets[dataToUse.maxSets.length - 1] || 0; // Zadnji maksimum
-
-  // Preštejmo vse sklice v tem tednu
-  let weeklyTotal = 0;
-  for (const day in exerciseData) {
-    if (exerciseData.hasOwnProperty(day)) {
-      weeklyTotal += exerciseData[day].totalReps || 0;
-    }
-  }
-
+  const weeklyTotal = dataToUse.totalReps || 0;
   const maxCount = dataToUse.maxSets.filter(max => max === lastMaxPushups).length; // Kolikokrat je bil dosežen zadnji maksimum
 
   // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
@@ -281,14 +273,14 @@ function displaySuggestion() {
     suggestion += `\n💪 Tvoj cilj (${weeklyGoal} sklec) je še pred teboj! Manjka ti še ${remainingReps} sklec, da dosežeš svoj cilj! Daj vse od sebe! 🌟`;
 
     // Predlogi za dosego cilja
-    suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več na vsakem setu, da povečaš napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in počasi povečala moč. 💪\n4️⃣ Verjamem vate, da ti lahko uspe😊`;
-    
+    suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več na vsakem setu, da povečaš napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in počasi povečala moč. 💪\n4️⃣ Verjamm vate, da ti lahko uspe😊`;
+
   } else {
-    // Predlagamo nov cilj, če je dosežen prejšnji cilj
-    const newGoal = Math.round(weeklyGoal * 1.05); 
-    suggestion += `\n🎉 Fantastično! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj novi cilj je: ${newGoal} sklec! 🎯 Ponosen sem nate😊💪 Samo tko naprej💪 ` ;
-    
-    
+    // Predlagamo povečanje cilja za 10% brez nastavitve kot novega cilja
+    const suggestedGoal = Math.round(weeklyGoal * 1.05);  // Povečanje cilja za 10%
+    suggestion += `\n🎉 Fantastično! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj predlagan novi cilj je: ${suggestedGoal} sklec! 🎯 Tvoja moč raste! Zdaj pa naredi naslednji korak! 💥`;
+  }
+
   // Prikaz nasveta v modalnem oknu
   document.getElementById('user-suggestion').innerText = suggestion;
 
