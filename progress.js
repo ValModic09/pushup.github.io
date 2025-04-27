@@ -155,32 +155,3 @@ function renderStreakDisplay() {
 document.addEventListener("DOMContentLoaded", () => {
     renderStreakDisplay();
 });
-async function getAISuggestion() {
-  const apiKey = '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'; // <-- TUKAJ prilepi svoj API ključ med '' !
-
-  const userData = {
-    lastMaxPushups: 25,    // Primer zadnjega maksa - lahko kasneje naredimo dinamično
-    weeklyTotal: 150       // Primer tedenskega števila
-  };
-
-  const prompt = `Uporabnik je zadnjič naredil ${userData.lastMaxPushups} sklec. 
-  Skupno ta teden je naredil ${userData.weeklyTotal} sklec. 
-  Svetuj mu, kakšen naj bo njegov naslednji maksimum in tedenski cilj, v motivacijskem tonu.`;
-
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo", // lahki model (cenejši in hiter)
-      messages: [{ role: "user", content: prompt }]
-    })
-  });
-
-  const data = await response.json();
-  const aiText = data.choices[0].message.content;
-
-  document.getElementById('ai-suggestion').innerText = aiText;
-}
