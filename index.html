@@ -200,6 +200,58 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script> // Tukaj je tvoja koda (kjer bo funkcija displaySuggestion() in ostalo)
+    function displaySuggestion() {
+      // Preberemo podatke iz localStorage
+      const exerciseData = JSON.parse(localStorage.getItem('exerciseData'));
+      const weeklyGoal = JSON.parse(localStorage.getItem('weeklyGoal'));
 
+      // Preverimo, če so podatki prisotni
+      if (!exerciseData || !weeklyGoal) {
+        document.getElementById('user-suggestion').innerText = 'Podatki niso na voljo. 💡';
+        return;
+      }
+
+      // Pridobimo podatke o zadnjem maksimalnem številu sklec in skupnem številu
+      const lastMaxPushups = exerciseData.lastMaxPushups || 0;
+      const weeklyTotal = exerciseData.weeklyTotal || 0;
+      const maxCount = exerciseData.maxCount || {}; // Objekt, ki spremlja število doseženih maksimumov
+
+      // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
+      let suggestion = '';
+
+      // Preverimo, koliko krat je bil dosežen trenutni maksimum
+      if (maxCount[lastMaxPushups] >= 5) {  // Če je bil maksimum dosežen 5-krat
+        // Povečamo maksimum
+        const newMax = lastMaxPushups + 1;
+        suggestion = `👏 Bravo, dosegla si ${lastMaxPushups} sklec že 5-krat! Zdaj je čas, da svojo moč dvigneš na ${newMax} sklec! 💪 Pokaži sebi, da zmoreš! 😊`;
+
+        // Posodobimo podatke v localStorage za nov maksimum
+        exerciseData.lastMaxPushups = newMax;
+        exerciseData.maxCount[newMax] = 0; // Za nov maksimum začnemo šteti od začetka
+        localStorage.setItem('exerciseData', JSON.stringify(exerciseData));
+      } else {
+        // Če trenutni maksimum ni dosežen dovoljkrat, svetujemo, da nadaljuje z njim
+        suggestion = `Tvoj trenutni maksimum je ${lastMaxPushups} sklec. 🎯 Poskusi doseči ta maksimum še nekajkrat in kmalu boš pripravljena na nov izziv! 💥`;
+      }
+
+      // Če je uporabnik dosegel tedenski cilj, predlagamo nov cilj
+      if (weeklyTotal >= weeklyGoal) {
+        const newGoal = weeklyGoal + 10; // Povečamo cilj za 10% za naslednji teden
+        suggestion += `\n🎉 Fantastično! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆 Tvoj novi cilj za naslednji teden je ${newGoal} sklec! Poglej se, kako napreduješ! 🌟`;
+      } else {
+        // Če cilj ni dosežen, mu predlagamo, kako doseči cilje
+        suggestion += `\n💪 Tvoj cilj (${weeklyGoal} sklec) je še pred teboj! Poskusi tole:`;
+        suggestion += '\n- Osredotoči se na pravilno tehniko, da bodo tvoje sklede še bolj učinkovite. 🎯';
+        suggestion += '\n- Postopoma povečuješ število sklec v enem setu, brez preobremenitve. 📈';
+      }
+
+      // Prikaz nasveta v HTML elementu
+      document.getElementById('user-suggestion').innerText = suggestion;
+    }
+
+    // Takoj prikažemo nasvet ob nalaganju strani
+    displaySuggestion();
+</script>
 </body>
 </html>
