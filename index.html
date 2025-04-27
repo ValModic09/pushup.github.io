@@ -100,8 +100,13 @@
     <button class="statistika">Statistika</button>
 </a>
 
-  <!-- Element, kjer bo prikazan nasvet -->
-  <div id="user-suggestion" style="margin-top: 10px; font-weight: bold;"></div>
+ <!-- Gumb za prikaz nasveta -->
+<button id="show-suggestion-btn">Nasvet</button>
+
+<!-- Element za prikaz nasveta -->
+<p id="user-suggestion"></p>
+
+
 
 
     <button onclick="promptDeleteAllData()" class="odstrani">Izbriši vse podatke</button>
@@ -201,6 +206,7 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+
 // Funkcija za prikaz nasvetov
 function displaySuggestion() {
   // Preverimo, če so podatki prisotni v localStorage
@@ -275,8 +281,8 @@ function displaySuggestion() {
   document.getElementById('user-suggestion').innerText = suggestion;
 }
 
-// Kličemo funkcijo za prikaz nasveta
-displaySuggestion();
+// Povezujemo funkcijo s klikom na gumb
+document.getElementById('show-suggestion-btn').addEventListener('click', displaySuggestion);
 
 </script>
 </body>
