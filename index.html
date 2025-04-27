@@ -201,22 +201,39 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // Funkcija za prikaz nasvetov
+// Funkcija za prikaz nasvetov
 function displaySuggestion() {
   // Preverimo, če so podatki prisotni v localStorage
   const exerciseData = JSON.parse(localStorage.getItem('exerciseData'));
   const weeklyGoal = JSON.parse(localStorage.getItem('weeklyGoal'));
 
   // Preverimo, če so podatki prisotni
-  if (!exerciseData || !weeklyGoal || !exerciseData.maxSets || exerciseData.maxSets.length === 0) {
+  if (!exerciseData || !weeklyGoal) {
     document.getElementById('user-suggestion').innerText = 'Podatki niso na voljo. 💡';
     return;
   }
 
+  // Dobi trenutni datum
+  const currentDate = new Date().toISOString().split('T')[0]; // Običajno formatiramo datum kot 'YYYY-MM-DD'
+  const previousDate = new Date();
+  previousDate.setDate(previousDate.getDate() - 1); // Prejšnji dan
+  const previousDateStr = previousDate.toISOString().split('T')[0];
+
+  // Preverimo, ali imamo podatke za trenutni datum
+  const currentData = exerciseData[currentDate];
+
+  // Če podatki za trenutni datum niso na voljo, preverimo prejšnji datum
+  const dataToUse = currentData || exerciseData[previousDateStr];
+
+  if (!dataToUse) {
+    document.getElementById('user-suggestion').innerText = 'Podatki za danes in prejšnji dan niso na voljo. 💡';
+    return;
+  }
+
   // Pridobimo podatke o zadnjem maksimalnem številu sklec (maxSets) in skupnem številu
-  const lastMaxPushups = exerciseData.maxSets[exerciseData.maxSets.length - 1] || 0; // Zadnji maksimum
-  const weeklyTotal = exerciseData.totalReps || 0;
-  const maxCount = exerciseData.maxSets.filter(max => max === lastMaxPushups).length; // Kolikokrat je bil dosežen zadnji maksimum
+  const lastMaxPushups = dataToUse.maxSets[dataToUse.maxSets.length - 1] || 0; // Zadnji maksimum
+  const weeklyTotal = dataToUse.totalReps || 0;
+  const maxCount = dataToUse.maxSets.filter(max => max === lastMaxPushups).length; // Kolikokrat je bil dosežen zadnji maksimum
 
   // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
   let suggestion = '';
@@ -228,7 +245,8 @@ function displaySuggestion() {
     suggestion = `👏 Bravo, dosegla si ${lastMaxPushups} sklec že 5-krat! Zdaj je čas, da svojo moč dvigneš na ${newMax} sklec! 💪 Pokaži sebi, da zmoreš! 😊`;
 
     // Posodobimo podatke v localStorage za nov maksimum
-    exerciseData.maxSets.push(newMax); // Dodamo nov maksimum v seznam
+    dataToUse.maxSets.push(newMax); // Dodamo nov maksimum v seznam
+    exerciseData[currentDate] = dataToUse; // Posodobimo podatke za trenutni datum
     localStorage.setItem('exerciseData', JSON.stringify(exerciseData));
 
   } else {
@@ -242,13 +260,13 @@ function displaySuggestion() {
     suggestion += `\n💪 Tvoj cilj (${weeklyGoal} sklec) je še pred teboj! Manjka ti še ${remainingReps} sklec, da dosežeš svoj cilj! Daj vse od sebe! 🌟`;
 
     // Predlogi za dosego cilja
-    suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več na vsakem setu, da povečaš napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in počasi povečala moč. 💪\n4️⃣ Verjamem vate, da ti lahko uspe 😊`;
-      
+    suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več na vsakem setu, da povečaš napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in počasi povečala moč. 💪\n4️⃣ Verjamm vate, da ti lahko uspe😊`;
+    
   } else {
     // Predlagamo nov cilj, če je dosežen prejšnji cilj
     const newGoal = weeklyGoal + 10;  // Povečanje cilja za 10 sklec
     suggestion += `\n🎉 Fantastično! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj novi cilj je: ${newGoal} sklec! 🎯 Tvoja moč raste! Zdaj pa naredi naslednji korak! 💥`;
-
+    
     // Posodobimo nov cilj v localStorage
     localStorage.setItem('weeklyGoal', JSON.stringify(newGoal));
   }
@@ -257,8 +275,9 @@ function displaySuggestion() {
   document.getElementById('user-suggestion').innerText = suggestion;
 }
 
-// Klic funkcije za prikaz nasveta
+// Kličemo funkcijo za prikaz nasveta
 displaySuggestion();
+
 
 </script>
 </body>
