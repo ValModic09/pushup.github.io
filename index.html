@@ -201,6 +201,7 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+// Funkcija za prikaz nasvetov
 function displaySuggestion() {
   // Preverimo, če so podatki prisotni v localStorage
   const exerciseData = JSON.parse(localStorage.getItem('exerciseData'));
@@ -212,22 +213,40 @@ function displaySuggestion() {
     return;
   }
 
+  // Dobi trenutni datum
+  const currentDate = new Date().toISOString().split('T')[0]; // Običajno formatiramo datum kot 'YYYY-MM-DD'
+  const previousDate = new Date();
+  previousDate.setDate(previousDate.getDate() - 1); // Prejšnji dan
+  const previousDateStr = previousDate.toISOString().split('T')[0];
+
+  // Preverimo, ali imamo podatke za trenutni datum
+  const currentData = exerciseData[currentDate];
+
+  // Če podatki za trenutni datum niso na voljo, preverimo prejšnji datum
+  const dataToUse = currentData || exerciseData[previousDateStr];
+
+  if (!dataToUse) {
+    document.getElementById('user-suggestion').innerText = 'Podatki za danes in prejšnji dan niso na voljo. 💡';
+    return;
+  }
+
   // Pridobimo podatke o zadnjem maksimalnem številu sklec (maxSets) in skupnem številu
-  const lastMaxPushups = exerciseData.maxSets[exerciseData.maxSets.length - 1] || 0; // Zadnji maksimum
-  const weeklyTotal = exerciseData.totalReps || 0;
-  const maxCount = exerciseData.maxSets.filter(max => max === lastMaxPushups).length; // Kolikokrat je bil dosežen zadnji maksimum
+  const lastMaxPushups = dataToUse.maxSets[dataToUse.maxSets.length - 1] || 0; // Zadnji maksimum
+  const weeklyTotal = dataToUse.totalReps || 0;
+  const maxCount = dataToUse.maxSets.filter(max => max === lastMaxPushups).length; // Kolikokrat je bil dosežen zadnji maksimum
 
   // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
   let suggestion = '';
 
   // Preverimo, koliko krat je bil dosežen trenutni maksimum
-  if (maxCount > 4) {  // Če je bil maksimum dosežen več kot 4-krat (preseže 4)
+  if (maxCount >= 5) {  // Če je bil maksimum dosežen 5-krat
     // Povečamo maksimum
     const newMax = lastMaxPushups + 1;
-    suggestion = `👏 Bravo, dosegla si ${lastMaxPushups} sklec že več kot 4-krat! Zdaj je čas, da svojo moč dvigneš na ${newMax} sklec! 💪 Pokaži sebi, da zmoreš! 😊`;
+    suggestion = `👏 Bravo, dosegla si ${lastMaxPushups} sklec že 5-krat! Zdaj je čas, da svojo moč dvigneš na ${newMax} sklec! 💪 Pokaži sebi, da zmoreš! 😊`;
 
     // Posodobimo podatke v localStorage za nov maksimum
-    exerciseData.maxSets.push(newMax); // Dodamo nov maksimum v seznam
+    dataToUse.maxSets.push(newMax); // Dodamo nov maksimum v seznam
+    exerciseData[currentDate] = dataToUse; // Posodobimo podatke za trenutni datum
     localStorage.setItem('exerciseData', JSON.stringify(exerciseData));
 
   } else {
@@ -256,6 +275,7 @@ function displaySuggestion() {
   document.getElementById('user-suggestion').innerText = suggestion;
 }
 
+// Kličemo funkcijo za prikaz nasveta
 displaySuggestion();
 
 </script>
