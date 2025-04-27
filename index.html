@@ -236,68 +236,56 @@ function displaySuggestion() {
   }
 
   // Dobi trenutni datum
-  const currentDate = new Date().toISOString().split('T')[0]; // Formatiramo datum kot 'YYYY-MM-DD'
+  const currentDate = new Date().toISOString().split('T')[0];
 
   // Določimo začetek tedna (ponedeljek)
   const today = new Date();
   const startOfWeek = getStartOfWeek(today);
-  const startOfWeekStr = startOfWeek.toISOString().split('T')[0]; // Datum začetka tedna v formatu 'YYYY-MM-DD'
 
-  // Preverimo, ali imamo podatke za trenutni datum
-  const currentData = exerciseData[currentDate];
-
-  // Če podatki za trenutni datum niso na voljo, preverimo od začetka tedna
-  const dataToUse = currentData || exerciseData[startOfWeekStr];
-
-  if (!dataToUse) {
-    document.getElementById('user-suggestion').innerText = 'Podatki za danes in začetek tedna niso na voljo. 💡';
-    return;
+  // Seštejemo sklece samo od začetka tedna do danes za weeklyGoal
+  let weeklyTotal = 0;
+  for (const dateStr in exerciseData) {
+    const date = new Date(dateStr);
+    if (date >= startOfWeek && date <= today) {
+      weeklyTotal += exerciseData[dateStr].totalReps || 0;
+    }
   }
 
-  // Pridobimo podatke o zadnjem maksimalnem številu sklec (maxSets) in skupnem številu
-  const lastMaxPushups = dataToUse.maxSets[dataToUse.maxSets.length - 1] || 0; // Zadnji maksimum
-  const weeklyTotal = Object.values(exerciseData).reduce((total, data) => total + (data.totalReps || 0), 0); // Skupno število sklec v tem tednu
+  // Skupni podatki za vse čase (ne le za ta teden)
+  let allMaxSets = [];
+  for (const dateStr in exerciseData) {
+    if (exerciseData[dateStr].maxSets && Array.isArray(exerciseData[dateStr].maxSets)) {
+      allMaxSets = allMaxSets.concat(exerciseData[dateStr].maxSets);
+    }
+  }
 
-  // Preštejemo vse vnose za trenutni maksimum (ne samo prejšnji datum)
-  const maxCount = Object.values(exerciseData).reduce((count, data) => {
-    // Preštejemo vse nastavitve, ki so enake trenutnemu maksimumu
-    return count + data.maxSets.filter(max => max === lastMaxPushups).length;
-  }, 0);
+  const lastMaxPushups = allMaxSets.length > 0 ? Math.max(...allMaxSets) : 0;
+  const maxCount = allMaxSets.filter(max => max === lastMaxPushups).length;
 
-  // Debugging: preveri maxCount
-  console.log(`MaxCount: ${maxCount} (lastMaxPushups: ${lastMaxPushups})`);
-
-  // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
+  // Predlagamo povečanje števila sklec
   let suggestion = '';
 
-  // Preverimo, koliko krat je bil dosežen trenutni maksimum
-  if (maxCount >= 7) {  // Če je bil maksimum dosežen 5-krat
-    // Povečamo maksimum
+  if (maxCount >= 7) {
     const newMax = lastMaxPushups + 1;
-    suggestion = `👏 Bravo, dosegla si ${lastMaxPushups} sklec že ${maxCount}-krat! Zdaj je čas, da svojo moč dvigneš na ${newMax} sklec! 💪 Pokaži sebi, da zmoreš! 😊`;
+    suggestion = `👏 Bravo, svoj max ${lastMaxPushups} sklec si dosegla že ${maxCount}-krat! Zdaj je čas, da svoj max dvigneš na ${newMax} sklec! 💪 Pokaži si, kaj zmoreš!😊`;
 
-    // Posodobimo podatke v localStorage za nov maksimum
-    dataToUse.maxSets.push(newMax); // Dodamo nov maksimum v seznam
-    exerciseData[currentDate] = dataToUse; // Posodobimo podatke za trenutni datum
-    localStorage.setItem('exerciseData', JSON.stringify(exerciseData));
-
+    // Ne shranjujemo novega maxa avtomatsko!
   } else {
-    // Če trenutni maksimum ni dosežen dovoljkrat, svetujemo, da nadaljuje z njim
-    suggestion = `Tvoj trenutni max je ${lastMaxPushups} sklec. 🎯 Poskusi doseči ta max še nekajkrat in kmalu boš pripravljena na nov izziv! 💥`;
+    suggestion = `Tvoj trenutni max je ${lastMaxPushups} sklec. 🎯 Do zdaj si ga dosegla ${maxCount}-krat. Nadaljuj z istim številom sklec še nekajkrat, da utrdiš svojo moč! 💥`;
   }
 
-  // Izračunamo, koliko manjkajoče število sklec je do tedenskega cilja
+  // Preverimo še tedenski cilj
   const remainingReps = weeklyGoal - weeklyTotal;
   if (remainingReps > 0) {
-    suggestion += `\n💪 Tvoj cilj (${weeklyGoal} sklec) je še pred teboj! Manjka ti še ${remainingReps} sklec, da dosežeš svoj cilj! Daj vse od sebe! 🌟`;
+    suggestion += `\n\n💪 Tvoj tedenski cilj (${weeklyGoal} sklec) še ni dosežen. Manjka ti še ${remainingReps} sklec! Daj vse od sebe in pokaži svojo vztrajnost! 🌟`;
 
-    // Predlogi za dosego cilja
-    suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več na vsakem setu, da povečaš napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in počasi povečala moč. 💪\n4️⃣ Verjamem vate, da ti lahko uspe😊`;
-
+    suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več pri vsakem setu, da boš povečala napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in postopoma povečala svojo moč. 💪\n4️⃣ Verjamem vate, da ti bo uspelo! 😊`;
   } else {
-    // Predlagamo nov cilj, če je dosežen prejšnji cilj
-    const newGoal = Math.round(weeklyGoal * 1.1);  // Povečanje cilja za 10%
-    suggestion += `\n🎉 Bravo! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj novi cilj je: ${newGoal} sklec! 🎯 Ponosen sem nate😊💪 Samo tako naprej💪`;
+    const newGoal = Math.round(weeklyGoal * 1.1);
+    suggestion += `\n\n🎉 Bravo! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆`;
+    suggestion += `\nTvoj predlagani novi cilj je: ${newGoal} sklec! 🎯 Ponosen sem nate in tudi ti si lahko!😊 Samo tako naprej!💪`;
+
+    // Ne spreminjamo weeklyGoal v localStorage!
   }
 
   // Prikaz nasveta v modalnem oknu
@@ -307,14 +295,13 @@ function displaySuggestion() {
   document.getElementById('suggestion-modal').style.display = 'block';
 }
 
-// Povezujemo funkcijo s klikom na gumb
+// Povežemo funkcijo s klikom na gumb
 document.getElementById('show-suggestion-btn').addEventListener('click', displaySuggestion);
 
 // Funkcija za zapiranje modala
 document.getElementById('close-modal').addEventListener('click', () => {
   document.getElementById('suggestion-modal').style.display = 'none';
 });
-
 </script>
 </body>
 </html>
