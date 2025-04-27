@@ -214,6 +214,15 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+// Funkcija za izračun začetka tedna (ponedeljek)
+function getStartOfWeek(date) {
+  const day = date.getDay(); // 0 = nedelja, 1 = ponedeljek, ...
+  const diff = day === 0 ? -6 : 1 - day; // Če je nedelja (0), se premaknemo nazaj za 6 dni, sicer za (1 - dan)
+  const startOfWeek = new Date(date);
+  startOfWeek.setDate(date.getDate() + diff); // Nastavimo datum na ponedeljek
+  return startOfWeek;
+}
+
 // Funkcija za prikaz nasvetov
 function displaySuggestion() {
   // Preverimo, če so podatki prisotni v localStorage
@@ -227,25 +236,28 @@ function displaySuggestion() {
   }
 
   // Dobi trenutni datum
-  const currentDate = new Date().toISOString().split('T')[0]; // Običajno formatiramo datum kot 'YYYY-MM-DD'
+  const currentDate = new Date().toISOString().split('T')[0]; // Formatiramo datum kot 'YYYY-MM-DD'
 
-  // Seštejemo vse sklec za celoten teden
-  let weeklyTotal = 0;
+  // Določimo začetek tedna (ponedeljek)
   const today = new Date();
-  const firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay())); // Prvi dan v tednu (ponedeljek)
-  const firstDayStr = firstDayOfWeek.toISOString().split('T')[0];
+  const startOfWeek = getStartOfWeek(today);
+  const startOfWeekStr = startOfWeek.toISOString().split('T')[0]; // Datum začetka tedna v formatu 'YYYY-MM-DD'
 
-  // Preverimo, koliko sklec je bilo izvedenih v tem tednu (od ponedeljka do danes)
-  for (let date in exerciseData) {
-    if (date >= firstDayStr && date <= currentDate) { // Če je datum v tem tednu
-      weeklyTotal += exerciseData[date].totalReps || 0;  // Seštejemo skupno število sklec
-    }
+  // Preverimo, ali imamo podatke za trenutni datum
+  const currentData = exerciseData[currentDate];
+
+  // Če podatki za trenutni datum niso na voljo, preverimo od začetka tedna
+  const dataToUse = currentData || exerciseData[startOfWeekStr];
+
+  if (!dataToUse) {
+    document.getElementById('user-suggestion').innerText = 'Podatki za danes in začetek tedna niso na voljo. 💡';
+    return;
   }
 
-  // Pridobimo podatke o zadnjem maksimalnem številu sklec (maxSets)
-  const currentData = exerciseData[currentDate];
-  const lastMaxPushups = currentData ? currentData.maxSets[currentData.maxSets.length - 1] : 0; // Zadnji maksimum
-  const maxCount = currentData ? currentData.maxSets.filter(max => max === lastMaxPushups).length : 0; // Kolikokrat je bil dosežen zadnji maksimum
+  // Pridobimo podatke o zadnjem maksimalnem številu sklec (maxSets) in skupnem številu
+  const lastMaxPushups = dataToUse.maxSets[dataToUse.maxSets.length - 1] || 0; // Zadnji maksimum
+  const weeklyTotal = Object.values(exerciseData).reduce((total, data) => total + (data.totalReps || 0), 0); // Skupno število sklec v tem tednu
+  const maxCount = dataToUse.maxSets.filter(max => max === lastMaxPushups).length; // Kolikokrat je bil dosežen zadnji maksimum
 
   // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
   let suggestion = '';
@@ -257,8 +269,8 @@ function displaySuggestion() {
     suggestion = `👏 Bravo, dosegla si ${lastMaxPushups} sklec že 5-krat! Zdaj je čas, da svojo moč dvigneš na ${newMax} sklec! 💪 Pokaži sebi, da zmoreš! 😊`;
 
     // Posodobimo podatke v localStorage za nov maksimum
-    currentData.maxSets.push(newMax); // Dodamo nov maksimum v seznam
-    exerciseData[currentDate] = currentData; // Posodobimo podatke za trenutni datum
+    dataToUse.maxSets.push(newMax); // Dodamo nov maksimum v seznam
+    exerciseData[currentDate] = dataToUse; // Posodobimo podatke za trenutni datum
     localStorage.setItem('exerciseData', JSON.stringify(exerciseData));
 
   } else {
@@ -275,9 +287,12 @@ function displaySuggestion() {
     suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več na vsakem setu, da povečaš napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in počasi povečala moč. 💪\n4️⃣ Verjamm vate, da ti lahko uspe😊`;
 
   } else {
-    // Predlagamo povečanje cilja za 10% brez nastavitve kot novega cilja
-    const suggestedGoal = Math.round(weeklyGoal * 1.10);  // Povečanje cilja za 10%
-    suggestion += `\n🎉 Fantastično! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj predlagan novi cilj je: ${suggestedGoal} sklec! 🎯 Tvoja moč raste! Zdaj pa naredi naslednji korak! 💥`;
+    // Predlagamo nov cilj, če je dosežen prejšnji cilj
+    const newGoal = Math.round(weeklyGoal * 1.1);  // Povečanje cilja za 10%
+    suggestion += `\n🎉 Fantastično! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj novi cilj je: ${newGoal} sklec! 🎯 Tvoja moč raste! Zdaj pa naredi naslednji korak! 💥`;
+
+    // Posodobimo nov cilj v localStorage
+    localStorage.setItem('weeklyGoal', JSON.stringify(newGoal));
   }
 
   // Prikaz nasveta v modalnem oknu
