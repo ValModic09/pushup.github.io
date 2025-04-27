@@ -285,7 +285,7 @@ function displaySuggestion() {
     
   } else {
     // Predlagamo nov cilj, če je dosežen prejšnji cilj
-    const newGoal = weeklyGoal + 10;  // Povečanje cilja za 10 sklec
+    const newGoal = Math.round(weeklyGoal * 1.10); 
     suggestion += `\n🎉 Fantastično! Dosegla si svoj tedenski cilj (${weeklyGoal} sklec)! 🏆\n\nTvoj novi cilj je: ${newGoal} sklec! 🎯 Ponosen sem nate😊💪 Samo tko naprej💪 ` ;
     
     // Posodobimo nov cilj v localStorage
