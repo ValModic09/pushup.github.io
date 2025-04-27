@@ -246,7 +246,7 @@ function displaySuggestion() {
 
   // Pridobimo podatke o zadnjem maksimalnem številu sklec (maxSets) in skupnem številu
   const lastMaxPushups = dataToUse.maxSets[dataToUse.maxSets.length - 1] || 0; // Zadnji maksimum
-  const weeklyTotal = dataToUse.totalReps || 0;
+  const weeklyTotal = Object.values(exerciseData).reduce((total, dayData) => total + dayData.totalReps, 0);  // Skupno število sklec v tem tednu
   const maxCount = dataToUse.maxSets.filter(max => max === lastMaxPushups).length; // Kolikokrat je bil dosežen zadnji maksimum
 
   // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
@@ -285,11 +285,8 @@ function displaySuggestion() {
     localStorage.setItem('weeklyGoal', JSON.stringify(newGoal));
   }
 
-  // Prikaz nasveta v modalnem oknu
+  // Prikaz nasveta v HTML elementu
   document.getElementById('user-suggestion').innerText = suggestion;
-
-  // Pokažemo modal
-  document.getElementById('suggestion-modal').style.display = 'block';
 }
 
 // Povezujemo funkcijo s klikom na gumb
