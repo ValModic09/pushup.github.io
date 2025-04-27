@@ -1,69 +1,33 @@
 <!DOCTYPE html>
- <html lang="sl">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Napredek</title>
-      <link rel="stylesheet" href="styles.css"> <!-- Povezava do istega CSS -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
-  </head>
-  <body>
-      <h1>Napredek💪</h1>
-  
-      <!-- Prikaz napredka -->
-      <div id="progressStats">
-          <h3>Napredek</h3>
-          <p id="goalProgressText">📈 Napredek za ta teden: 0/0</p>
-          <p id="allTimeStats">
-              <strong>Skupno število sklec: 0</strong><br>
-              <strong>Povprečje na dan: 0</strong><br>
-              <strong>Največji set: 0</strong>
-          </p>
-      </div>
-  <div id="streakDisplay"></div>
-
- <div id="ai-suggestion" style="margin-top:20px; font-weight: bold;"></div>
-
-<button onclick="getAISuggestion()">Dobi AI nasvet</button>
-
-<script>
-  async function getAISuggestion() {
-    const apiKey = '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'; // <-- TUKAJ prilepi svoj API ključ med '' !
-
-    const userData = {
-      lastMaxPushups: 25,    // Primer zadnjega maksa - lahko kasneje naredimo dinamično
-      weeklyTotal: 150       // Primer tedenskega števila
-    };
-
-    const prompt = `Uporabnik je zadnjič naredil ${userData.lastMaxPushups} sklec. 
-    Skupno ta teden je naredil ${userData.weeklyTotal} sklec. 
-    Svetuj mu, kakšen naj bo njegov naslednji maksimum in tedenski cilj, v motivacijskem tonu.`;
-
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo", // lahki model (cenejši in hiter)
-        messages: [{ role: "user", content: prompt }]
-      })
-    });
-
-    const data = await response.json();
-    const aiText = data.choices[0].message.content;
-
-    document.getElementById('ai-suggestion').innerText = aiText;
-  }
-</script>
-
-
-     
-  
-  <a href="index.html">
-    <button class="home-btn">Nazaj na domačo stran</button>
-  </a>
-  
-      <script src="progress.js"></script>
-  </body>
+  <html lang="sl">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Napredek</title>
+       <link rel="stylesheet" href="styles.css"> <!-- Povezava do istega CSS -->
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+   </head>
+   <body>
+       <h1>Napredek💪</h1>
+   
+       <!-- Prikaz napredka -->
+       <div id="progressStats">
+           <h3>Napredek</h3>
+           <p id="goalProgressText">📈 Napredek za ta teden: 0/0</p>
+           <p id="allTimeStats">
+               <strong>Skupno število sklec: 0</strong><br>
+               <strong>Povprečje na dan: 0</strong><br>
+               <strong>Največji set: 0</strong>
+           </p>
+       </div>
+   <div id="streakDisplay"></div>
+ 
+       <!-- Gumb za prenos napredka kot sliko -->
+       <button id="downloadProgressBtn">Prenesi napredek kot sliko</button>
+   <!-- Gumb, ki deluje kot povezava na domačo stran -->
+   <a href="index.html">
+     <button class="home-btn">Nazaj na domačo stran</button>
+   </a>
+   
+       <script src="progress.js"></script>
+   </body>
