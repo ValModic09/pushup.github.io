@@ -103,6 +103,14 @@
  <!-- Gumb za prikaz nasveta -->
 <button id="show-suggestion-btn">Nasvet😊</button>
 
+<!-- Modal (Pop-up) okno -->
+<div id="suggestion-modal" class="modal">
+  <div class="modal-content">
+    <span id="close-modal" class="close">&times;</span>
+    <p id="user-suggestion"></p>
+  </div>
+</div>
+
 <!-- Element za prikaz nasveta -->
 <p id="user-suggestion"></p>
 
@@ -277,12 +285,20 @@ function displaySuggestion() {
     localStorage.setItem('weeklyGoal', JSON.stringify(newGoal));
   }
 
-  // Prikaz nasveta v HTML elementu
+  // Prikaz nasveta v modalnem oknu
   document.getElementById('user-suggestion').innerText = suggestion;
+
+  // Pokažemo modal
+  document.getElementById('suggestion-modal').style.display = 'block';
 }
 
 // Povezujemo funkcijo s klikom na gumb
 document.getElementById('show-suggestion-btn').addEventListener('click', displaySuggestion);
+
+// Funkcija za zapiranje modala
+document.getElementById('close-modal').addEventListener('click', () => {
+  document.getElementById('suggestion-modal').style.display = 'none';
+});
 
 </script>
 </body>
