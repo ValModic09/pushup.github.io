@@ -203,7 +203,7 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
  <script>
     // Funkcija za prikaz nasvetov
     function displaySuggestion() {
-      // Preberemo podatke iz localStorage
+      // Preverimo, če so podatki prisotni v localStorage
       const exerciseData = JSON.parse(localStorage.getItem('exerciseData'));
       const weeklyGoal = JSON.parse(localStorage.getItem('weeklyGoal'));
 
@@ -242,7 +242,7 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
         suggestion += `\n💪 Tvoj cilj (${weeklyGoal} sklec) je še pred teboj! Manjka ti še ${remainingReps} sklec, da dosežeš svoj cilj! Daj vse od sebe! 🌟`;
 
         // Predlogi za dosego cilja
-        suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več na vsakem setu, da povečaš napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in počasi povečala moč. 💪\n4️⃣ Vrjamm, da ti lahko rata😊`;
+        suggestion += `\n\n📈 Kako doseči cilj?\n1️⃣ Poskusi narediti eno skleco več na vsakem setu, da povečaš napredek.\n2️⃣ Osredotoči se na pravilno tehniko – pomembno je, da sklece izvajaš pravilno, da se izogneš poškodbam. 🧘‍♀️\n3️⃣ Raje naredi več setov z manj sklec, da boš izboljšala vzdržljivost in počasi povečala moč. 💪\n4️⃣ Verjamm vate, da ti lahko uspe😊`;
         
       } else {
         // Predlagamo nov cilj, če je dosežen prejšnji cilj
@@ -257,7 +257,22 @@ if (labels.length > 0 && totalRepsData.length > 0 && maxSetsData.length > 0) {
       document.getElementById('user-suggestion').innerText = suggestion;
     }
 
-    // Takoj prikažemo nasvet ob nalaganju strani
+    // Funkcija za nastavljanje testnih podatkov v localStorage
+    function setTestData() {
+      const testExerciseData = {
+        totalReps: 50,
+        entries: [50],
+        maxSets: [12]  // Testni podatki za max sklec
+      };
+      const testWeeklyGoal = 100;  // Testni tedenski cilj
+
+      // Nastavimo testne podatke v localStorage
+      localStorage.setItem('exerciseData', JSON.stringify(testExerciseData));
+      localStorage.setItem('weeklyGoal', JSON.stringify(testWeeklyGoal));
+    }
+
+    // Nastavimo testne podatke in prikažemo nasvet
+    setTestData();
     displaySuggestion();
   </script>
 </body>
