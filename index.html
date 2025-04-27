@@ -259,7 +259,12 @@ function displaySuggestion() {
   const weeklyTotal = Object.values(exerciseData).reduce((total, data) => total + (data.totalReps || 0), 0); // Skupno število sklec v tem tednu
   const maxCount = dataToUse.maxSets.filter(max => max === lastMaxPushups).length; // Kolikokrat je bil dosežen zadnji maksimum
 
-  // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
+    
+    console.log(`MaxCount: ${maxCount} (lastMaxPushups: ${lastMaxPushups})`);
+  
+    
+    
+    // Predlagamo povečanje števila sklec, če je uporabnikov maksimum dosežen večkrat
   let suggestion = '';
 
   // Preverimo, koliko krat je bil dosežen trenutni maksimum
