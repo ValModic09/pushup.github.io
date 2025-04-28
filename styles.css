@@ -390,4 +390,5 @@ button:hover {
 }
 #user-suggestion {
   font-size: 1.1rem; /* Nastavi pisavo glede na osnovno velikost (npr. 1.5x večja od osnovne velikosti) */
+    overflow-y: auto;
 }
